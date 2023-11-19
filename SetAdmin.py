@@ -1,8 +1,17 @@
-
-
+#SetAdmin
+#---------------------------------------------------------------------
+#A utility to present pupil score data by set for setting discusssions
+#---------------------------------------------------------------------
+#AAV 17/11/23
+#Version 1.0
+#---------------------------------------------------------------------
 
 #imports
+#---------------------------------------------------------------------
 import csv
+
+#Subroutines
+#---------------------------------------------------------------------
 
 #returns a datalist
 def openfile():
@@ -13,10 +22,6 @@ def openfile():
             data.append(row)
     return data
     
-
-
-
-
 #identifies the class sets in the data, returns a list of them
 def sets(data):
     setList = []
@@ -32,7 +37,6 @@ def score_list():
     for i in range(0,100):
         currentScore = 100-i
         score_list.append([currentScore])
-
     return score_list
 
 def writefile(headers, data):
@@ -42,16 +46,14 @@ def writefile(headers, data):
         datawriter.writerows(data)
 
 def main():
-
     #dataimport
     data = openfile()
-    
+
     #analyse the data for classes, assuming they are in column 2
     sets_in_data = sets(data)
 
-    #list of 100 scores
+    #starter list of 100 scores
     scores_list = score_list()
-    #print(scores_list)
     
     #for each set
     for classset in sets_in_data:
@@ -59,7 +61,6 @@ def main():
         #loop through the scores.
         for score in scores_list:
             #find the pupils in the data in the set with that school. 
-            #print(score)
             pupils = ""
             for pupil in data:
                  #if the pupil score and their set matches the list score and the current set, add it to the list at the position, else append a gap
@@ -67,15 +68,13 @@ def main():
                     print(pupil)
                     pupils = pupils + pupil[0]
             score.append(pupils)
-    #print(scores_list)
-
+            
+    #set up the header row
     headers = ["score"]
     for set_name in sets_in_data:
         headers.append(set_name)
-
-    #print(processed_data)
+        
     writefile(headers, scores_list)
 
-
-if "__name__"== "__main__":
+if __name__ == "__main__":
     main()
